@@ -3,13 +3,13 @@ import './App.css';
 import Main from "./components/Main";
 import Panel from "./components/Panel";
 import Search from "./components/Search";
-import GoogleMaps from 'google-maps-react';
+import Container from "./components/Container";
 
 const App = () =>
     <div>
       <Main/>
       <Search/> 
-      <GoogleMaps />
+      <Container />
       <Panel/>
     </div>
 
