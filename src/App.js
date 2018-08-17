@@ -1,19 +1,15 @@
-import React, { Component } from 'react';
-// import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import Main from "./components/Main";
-import Results from "./components/Results";
-//import Col from "./components/Col";
 import Panel from "./components/Panel";
-import Row from "./components/Row";
 import Search from "./components/Search";
+import GoogleMaps from 'google-maps-react';
 
 const App = () =>
     <div>
       <Main/>
-      <Row/>
       <Search/> 
-      <Results/>
+      <GoogleMaps />
       <Panel/>
     </div>
 
