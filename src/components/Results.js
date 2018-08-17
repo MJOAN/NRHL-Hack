@@ -1,21 +1,22 @@
 import React from "react";
 
-const MovieDetail = props =>
+const Lunch = props =>
   <div className="text-center">
     <img
-      className="img-responsive"
+      alt="img"
+      className="img"
       src={props.src}
       style={{ margin: "0 auto" }}
     />
     <h3>
-      Director(s): {props.director}
+      Places for Lunch: {props.lunch}
     </h3>
     <h3>
-      Genre: {props.genre}
+      Food Type: {props.foodtype}
     </h3>
     <h3>
-      Released: {props.released}
+      Budget: {props.budget}
     </h3>
   </div>;
 
-export default MovieDetail;
+export default Lunch;
