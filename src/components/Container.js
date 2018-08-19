@@ -1,89 +1,67 @@
-import React from "react";
-import InfoWindow from './InfoWindow';
-import Marker from './Marker';
-import {Map, GoogleApiWrapper} from 'google-maps-react';
+import React, {Component} from 'react'
+import { Map, GoogleApiWrapper} from 'google-maps-react';
+import InfoWindow from './InfoWindow'
+//import Map from './Map'
+import Marker from './Marker'
 
-export class MapContainer extends React.Component {
-  state = {
-    activeMarker: {},
-    selectedPlace: {},
-    showingInfoWindow: false
-  };
+class Container extends React.Component {
+   getInitialState = () => {
+    return {
+      showingInfoWindow: true,
+      activeMarker: null,
+      selectedPlace: {}
+    }
+  }
 
-  onMarkerClick = (props, marker) =>
+  onMarkerClick = (props, marker, e) =>
     this.setState({
-      activeMarker: marker,
       selectedPlace: props,
+      activeMarker: marker,
       showingInfoWindow: true
     });
 
-  onInfoWindowClose = () =>
-    this.setState({
-      activeMarker: null,
-      showingInfoWindow: false
-    });
-
-  onMapClicked = () => {
-    if (this.state.showingInfoWindow)
-      this.setState({
-        activeMarker: null,
-        showingInfoWindow: false
-      });
-  };
+  // onMapClick = (props) => {
+  //   if (this.state.showingInfoWindow) {
+  //     this.setState({
+  //       showingInfoWindow: false,
+  //       activeMarker: null
+  //     })
+  //   }
+  // };
 
   render() {
-
     const style = {
       width: '100vw',
       height: '100vh'
     }
-
-    if (!this.props.loaded) return <div>Loading...</div>;
-    
+    const pos = ({lat: 34.0482009, lng: -118.25895279999997})
     return (
       <div style={style}>
       <Map 
-        className="map"
         google={this.props.google}
-        onClick={this.onMapClicked}
-        style={{ height: '100%', position: 'relative', width: '100%' }}
-        zoom={14}>     
+        style={style}
+        initialCenter={{
+            lat: 34.1814886,
+            lng: -118.8955505
+          }}
+        onClick={this.onMapClick}>
 
-        <Marker
-          onClick={this.onMarkerClick}
-          name={'Sushi Restaurant'}
-          position={ {lat: 34.0482009, lng: -118.25895279999997}} 
-        />
+      <Marker
+        onClick={this.onMarkerClick}
+        name={'Sushi Restaurant'}
+        position={pos} />
 
-        <Marker
-          onClick={this.onMarkerClick}
-          name={'Italian Restaurant'}
-          position={ {lat: 36.0482009, lng: -124.25895279999997}} 
-        />
-
-
-        <InfoWindow
-          marker={this.state.activeMarker}
-          onClose={this.onInfoWindowClose}
-          visible={this.state.showingInfoWindow}>
-          <div>
-            <h1>{this.state.selectedPlace.name}</h1>
-          </div>
-        </InfoWindow>
-
-        <InfoWindow position={{ lat: 37.765703, lng: -122.42564 }} visible>
-          <small>
-            Click on any of the markers to display an additional info.
-          </small>
-        </InfoWindow>
-
-        
-        </Map>
-        </div>
-      );
-    }
+      <Marker position={pos} />
+      <InfoWindow>
+      </InfoWindow>
+      </Map>
+    </div>
+    );
   }
+}
+
 
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyCutSZwfHTMo57rrmIEbZKdYm41W83rT98')
-})(MapContainer)
+  apiKey: 'AIzaSyCutSZwfHTMo57rrmIEbZKdYm41W83rT98',
+  libraries: ['places']
+})(Container)

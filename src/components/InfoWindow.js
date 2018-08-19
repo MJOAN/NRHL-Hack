@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import ReactDOMServer from 'react-dom/server'
 
-export class InfoWindow extends React.Component {
+class InfoWindow extends React.Component {
 
   componentDidMount() {
     this.renderInfoWindow();
@@ -76,17 +76,17 @@ export class InfoWindow extends React.Component {
     this.infowindow.open(this.props.map, this.props.marker);
   }
 
-  updatePosition() {
-    let pos = this.props.position;
-    // google is available
-    const {google} = this.props;
-    const maps = google.maps;
+  // updatePosition() {
+  //   let pos = this.props.position;
+  //   // google is available
+  //   const {google} = this.props;
+  //   const maps = google.maps;
     
-    if (!(pos instanceof google.maps.LatLng)) {
-      pos = pos && new google.maps.LatLng(pos.lat, pos.lng);
-    }
-    this.infowindow.setPosition(pos);
-  }
+  //   if (!(pos instanceof google.maps.LatLng)) {
+  //     pos = pos && new google.maps.LatLng(pos.lat, pos.lng);
+  //   }
+  //   this.infowindow.setPosition(pos);
+  // }
 
   updateContent() {
     const content = this.renderChildren();

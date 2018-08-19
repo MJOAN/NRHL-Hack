@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from 'react'
 import camelize from "camelize"
 import evt from "evt"
 import {Map, InfoWindow, GoogleApiWrapper} from 'google-maps-react';
@@ -64,11 +64,13 @@ export class Marker extends React.Component {
       title,
       ...props
     } = this.props;
+    
     if (!google) {
       return null
     }
 
     let pos = position || mapCenter;
+    //position = new google.maps.LatLng(pos.lat, pos.lng);
     if (!(pos instanceof google.maps.LatLng)) {
       pos = new google.maps.LatLng(pos.lat, pos.lng);
     }
@@ -97,7 +99,7 @@ export class Marker extends React.Component {
 
   handleEvent(evt) {
     return (e) => {
-      const evtName = `on${camelize(evt)}`
+      const evtName = `on${(evt)}`
       if (this.props[evtName]) {
         this.props[evtName](this.props, this.marker, e);
       }

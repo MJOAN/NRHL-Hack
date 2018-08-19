@@ -6,6 +6,7 @@
     "camelize": "^1.0.0",
     "evt": "0.0.2",
     "google-maps-react": "^2.0.2",
+    "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-dom-server": "0.0.5",
