@@ -1,5 +1,5 @@
 ## Nordstron Hautelook Hackathon 
- - Build an application to find restaurants in the area
+ - Build application to find restaurants in the area
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
