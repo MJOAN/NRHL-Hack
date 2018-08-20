@@ -5,7 +5,6 @@ import Container from "./components/Container";
 
 const App = () =>
     <div>
-      <Search/> 
       <Container />
       
     </div>

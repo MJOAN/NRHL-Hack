@@ -1,31 +1,92 @@
 import React, {Component} from 'react'
+import  {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import Container from './Container';
+import styles from '../../src/App.css';
 
-const Search = props =>
-  <form>
-    <div className="panel-heading">
-      <h2>
-        Hautelook Lunch App! 
-      </h2>
-    </div>
+class Search extends React.Component {
+  state = {
+    position: null
+  };
 
-    <div className="form-group">
-      <label htmlFor="search">Search:</label>
-      
-      <input
-        onChange={props.handleInputChange}
-        value={props.value}
-        name="search"
-        type="text"
-        className="form-control"
-        placeholder="Search For Lunch"
-        id="search"
-      />
+  componentDidMount() {
+    this.renderAutoComplete();
+  }
 
-      <br />
-      <button onClick={props.handleFormSubmit} className="btn btn-primary">
-        Search
-      </button>
-    </div>
-  </form>;
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps.map) this.renderAutoComplete();
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+  }
+
+  renderAutoComplete() {
+    const { google, map } = this.props;
+
+    if (!google || !map) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(this.autocomplete);
+    autocomplete.bindTo('bounds', map);
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();
+
+      if (!place.geometry) return;
+
+      if (place.geometry.viewport) map.fitBounds(place.geometry.viewport);
+      else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(17);
+      }
+
+      this.setState({ position: place.geometry.location });
+    });
+  }
+
+  render() {
+    const { position } = this.state;
+
+    return (
+      <div className={styles.flexWrapper}>
+        <div className={styles.left}>
+          <form onSubmit={this.onSubmit}>
+            <input
+              placeholder="Enter a location"
+              ref={ref => (this.autocomplete = ref)}
+              type="text"
+            />
+
+            <input className={styles.button} type="submit" value="Go" />
+          </form>
+
+          <div>
+            <div>Lat: {position && position.lat()}</div>
+            <div>Lng: {position && position.lng()}</div>
+          </div>
+        </div>
+
+        <div className={styles.right}>
+          <Map
+            {...this.props}
+            center={position}
+            centerAroundCurrentLocation={false}
+            containerStyle={{
+              height: '100vh',
+              position: 'relative',
+              width: '100%'
+            }}>
+
+          </Map>
+        </div>
+      </div>
+    );
+  }
+}
+
+const MapWrapper = props => (
+  <Map className="map" google={props.google} visible={false}>
+    <Container {...props} />
+  </Map>
+);
 
 export default Search;
